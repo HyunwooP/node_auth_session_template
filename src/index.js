@@ -1,12 +1,13 @@
 const http = require('http');
-const env = require('./env');
-const express = require('./express');
+const env = require('./lib/env');
+const globals = require('./lib/global');
+const express = require('./lib/express');
 
 module.exports = async () => {
   
   try {
     // setting global variable
-    require('../lib/global')();
+    globals();
 
     // setting express middlewares
     const server = await express();

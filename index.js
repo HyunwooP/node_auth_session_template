@@ -1,3 +1,3 @@
-const init = require('./src/lib/init');
+const init = require('./src');
 
 init();
