@@ -9,9 +9,9 @@ router.post('/login', async (req, res) => {
     }
 
     return res.send(await authService.login(req, res));
-    
+
   } catch(e) {
-    return error(res, 500, 'Login API Error');
+    return error(res, 500, e);
   }
 });
 
@@ -19,7 +19,7 @@ router.post('/logout', async (req, res) => {
   try {
     return res.send(await authService.logout(req, res));
   } catch(e) {
-    return error(res, 500, 'Logout API Error');
+    return error(res, 500, e);
   }
 });
 
