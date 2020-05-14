@@ -14,7 +14,7 @@ Author: 박현우
 HTTP Request로 Login, Logout을 통해 세션 관리 템플릿을 정의함.
 
 1. 인증처리에 대해서는 DB를 붙여서, 로그인 프로세스를 따로 맞게 구현 해야한다.
-lib/login.js를 알맞게 수정하자.
+service/auth/login.js를 알맞게 수정하자.
 
 2. passport.js에서도 DB에서 직접 가져와서 데이터를 검증하고 callback 처리해야 하기 때문에,
 passport.js - deserializeUser, strategy를 알맞게 수정하자.
@@ -43,9 +43,10 @@ sessionSecret = 'anything'
     env: .env의 데이터와 대조하여 기본 값 설정
     express: 기본적인 Express 미들웨어 설정
     init: 프로세스 root
-    login: 로그인의 기능을 구현해야할 곳
-    logout: 로그아웃의 기능을 구현해야할 곳
     passport: passport.js 설정
-  }
+  },
+  route: controllers 기준으로 router list 제작,
+  controller: API 통신,
+  service: controller별 로직 관리
 }
 ```
