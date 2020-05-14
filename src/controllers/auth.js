@@ -17,6 +17,11 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
   try {
+    
+    if (!req.logout || !req.session) {
+      return error(res, 400, 'Can not find Session');
+    }
+
     return res.send(await authService.logout(req, res));
   } catch(e) {
     return error(res, 500, e);
