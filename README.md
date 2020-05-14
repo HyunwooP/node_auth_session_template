@@ -18,20 +18,18 @@ service/auth/login.js를 알맞게 수정하자.
 
 2. passport.js에서도 DB에서 직접 가져와서 데이터를 검증하고 callback 처리해야 하기 때문에,
 passport.js - deserializeUser, strategy를 알맞게 수정하자.
-
-3. 각 에러에 맞게 status 설정 해줄 것.
 ```
 
 ```
 [환경설정]
 .env를 사용한다.
 
-.env params list
-
-port = 3000
-redisPort = 6379
-redisHost = '127.0.0.1'
-sessionSecret = 'anything'
+1. generate ./env file
+2. .env params list
+  port = 3000
+  redisPort = 6379
+  redisHost = '127.0.0.1'
+  sessionSecret = 'anything'
 ```
 
 ```
@@ -39,14 +37,16 @@ sessionSecret = 'anything'
 
 {
   root: index.js
-  lib: {
-    env: .env의 데이터와 대조하여 기본 값 설정
-    express: 기본적인 Express 미들웨어 설정
-    init: 프로세스 root
-    passport: passport.js 설정
-  },
-  route: controllers 기준으로 router list 제작,
-  controller: API 통신,
-  service: controller별 로직 관리
+  src: {
+    lib: {
+      env: .env의 데이터와 대조하여 기본 값 설정
+      express: 기본적인 Express 미들웨어 설정
+      init: 프로세스 root
+      passport: passport.js 설정
+    },
+    route: controllers 기준으로 router list 제작,
+    controller: API 통신,
+    service: controller별 로직 관리
+  }
 }
 ```
