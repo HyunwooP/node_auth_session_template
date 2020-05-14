@@ -10,8 +10,8 @@ Author: 박현우
 ```
 [노트]
 
-인증과 세션 관리에 대한 템플릿을 만들고 싶어서 개발했기 때문에,
-따로 DB Connection을 하지 않았다.
+인증과 세션 관리에 대한 템플릿을 만들고 싶어서 개발했기 때문에, 따로 DB Connection을 하지 않았다.
+HTTP Request로 Login, Logout을 통해 세션 관리 템플릿을 정의함.
 
 1. 인증처리에 대해서는 DB를 붙여서, 로그인 프로세스를 따로 맞게 구현 해야한다.
 lib/login.js를 알맞게 수정하자.
@@ -43,7 +43,8 @@ sessionSecret = 'anything'
     env: .env의 데이터와 대조하여 기본 값 설정
     express: 기본적인 Express 미들웨어 설정
     init: 프로세스 root
-    login: 로그인 구현해야할 곳
+    login: 로그인의 기능을 구현해야할 곳
+    logout: 로그아웃의 기능을 구현해야할 곳
     passport: passport.js 설정
   }
 }
