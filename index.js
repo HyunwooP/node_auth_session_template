@@ -1,3 +1,3 @@
-const init = require('./src');
+require('./src')();
 
-init();
+module.exports = require('./src');
