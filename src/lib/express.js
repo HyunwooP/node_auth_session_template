@@ -5,7 +5,7 @@ const redisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const passport = require('./passport');
-const env = require('./env');
+const env = require('../config/env');
 const path = require('path');
 
 const app = express();

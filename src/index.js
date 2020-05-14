@@ -1,6 +1,6 @@
 const http = require('http');
-const env = require('./lib/env');
-const globals = require('./lib/global');
+const env = require('./config/env');
+const globals = require('./config/global');
 const express = require('./lib/express');
 
 module.exports = async () => {
