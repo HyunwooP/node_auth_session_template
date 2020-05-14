@@ -38,12 +38,16 @@ passport.js - deserializeUser, strategy를 알맞게 수정하자.
 {
   root: index.js
   src: {
+    index: init process start!,
     lib: {
-      env: .env의 데이터와 대조하여 기본 값 설정
-      express: 기본적인 Express 미들웨어 설정
-      init: 프로세스 root
-      passport: passport.js 설정
+      express: 기본적인 Express 미들웨어 설정,
+      error: error 공통 함수,
+      passport: passport.js 설정,
     },
+    config: {
+      env: .env의 데이터와 대조하여 기본 값 설정,
+      global: global variable
+    }
     route: controllers 기준으로 router list 제작,
     controller: API 통신,
     service: controller별 로직 관리
