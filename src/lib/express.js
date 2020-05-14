@@ -20,7 +20,8 @@ const sessionConfig = {
     maxAge: null,
   },
   store: new redisStore({
-    client: redis.createClient(env.redisPort, env.redisHost)
+    client: redis.createClient(env.redisPort, env.redisHost),
+    ttl: env.ttl
   }),
   resave: false,
   saveUninitialized: false
