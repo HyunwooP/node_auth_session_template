@@ -1,4 +1,4 @@
-const passport = require('./passport');
+const passport = require('../../lib/passport');
 
 module.exports = (req) => {
   return new Promise((resolve) => {

@@ -1,4 +1,4 @@
-const passport = require('./passport');
+const passport = require('../../lib/passport');
 
 module.exports = (req, res) => {
   return new Promise((resolve, reject) => {
@@ -6,8 +6,6 @@ module.exports = (req, res) => {
     if (!req.body.id || !req.body.password) {
       reject('Missing Login Params');
     }
-
-    passport.authenticate('local', handler)(req, res, req.next);
 
     const handler = (err, user, message) => {
       if (err) {
@@ -29,6 +27,8 @@ module.exports = (req, res) => {
         resolve(user);
       });
     }
+
+    passport.authenticate('local', handler)(req, res, req.next);
     
   });
 }
