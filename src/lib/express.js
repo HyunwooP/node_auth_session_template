@@ -37,9 +37,8 @@ module.exports = () => {
     app.use(express.static(path.join(__dirname, 'public')));
     
     // router
-    require('../route')().map(controller => {
-      app.use(`/${controller}`.replace(/.js/, ''), require(`../controllers/${controller}`));
-    })
+    require('../route')()
+    .map(controller => app.use(`/${controller}`.replace(/.js/, ''), require(`../controllers/${controller}`)));
       
     resolve(app);
   });
