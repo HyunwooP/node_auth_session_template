@@ -7,7 +7,7 @@ module.exports = async () => {
   
   try {
     // setting global variable
-    globals();
+    await globals();
 
     // setting express middlewares
     const server = await express();
