@@ -1,0 +1,33 @@
+[
+  {
+    "name": "test",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "username": "root",
+    "password": "",
+    "database": "localDB",
+    "synchronize": true,
+    "logging": false,
+    "dropSchema": true,
+    "entities": ["src/entity/*.ts"]
+  },
+  {
+    "name": "production",
+    "type": "mysql",
+    "host": "",
+    "port": "",
+    "username": "",
+    "password": "",
+    "database": "",
+    "synchronize": false,
+    "logging": true,
+    "entities": ["src/entity/*.ts"],
+    "migrationsTableName": "migrations",
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+    }
+  }
+]
