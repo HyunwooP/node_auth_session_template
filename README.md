@@ -38,5 +38,7 @@ Author: 박현우
 .env를 사용한다.
 
 1. generate ./env file (dotenv)
-
+2. DB Table (Model) 추가 시
+    2-1. go .src/lib/database.ts
+    2-2. connectRepository function에 참조되는 AppRepository 객체에 선언
 ```
