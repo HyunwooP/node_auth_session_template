@@ -1,11 +1,11 @@
-export enum StatusCode {
+export enum CommonStatusCode {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
   OK = 200,
   BAD_REQUEST = 400,
 }
 
-export enum StatusMessage {
+export enum CommonStatusMessage {
   UNAUTHORIZED = "UNAUTHORIZED",
   NOT_FOUND = "NOT_FOUND",
   OK = "OK",

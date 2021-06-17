@@ -1,22 +1,31 @@
-import * as http from "http";
-import env from "./config/env";
-import { express, connectDB, generateTestData } from "./lib";
+import App from "./App";
 
 (async () => {
   try {
-    // setting express middlewares
-    const server = await express();
+    /**
+     * Create Route Item
+     */
+    await App.onCreateRoute();
 
-    // db connect
-    await connectDB();
+    /**
+     * Create HTTP Server
+     */
+    await App.onCreateServer();
 
-    // setting test data
-    await generateTestData();
+    /**
+     * Connect DB
+     */
+    await App.onConnectDB();
 
-    // create server
-    http
-      .createServer(server)
-      .listen(env.port, () => console.log(`listen port ${env.port}`));
+    /**
+     * Connect TypeOrm Mysql Repositorys
+     */
+    await App.onConnectRepository();
+
+    /**
+     * Create Mysql Sample Data
+     */
+    await App.onCreateTestSample();
   } catch (e) {
     console.log(e);
   }
