@@ -1,8 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { hashSync } from "../../../utils";
 
+export interface UserIE {
+  id?: number;
+  email?: string;
+  nickname?: string;
+  password?: string;
+  isDeleted?: boolean;
+}
 @Entity("user")
-export class User {
+export class User implements UserIE {
   @PrimaryGeneratedColumn({ name: "user_id" })
   id: number;
 

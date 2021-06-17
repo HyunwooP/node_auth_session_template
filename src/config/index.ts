@@ -21,6 +21,7 @@ export default {
   jwtRefreshExpired: process.env.jwtRefreshExpired ?? "3h",
   // domain
   origin:
-    `http://${process.env.clientDomain}:${process.env.clientPort}` ??
-    "http://localhost:3000",
+    process.env.clientDomain && process.env.clientPort
+      ? `http://${process.env.clientDomain}:${process.env.clientPort}`
+      : "http://localhost:3000",
 };

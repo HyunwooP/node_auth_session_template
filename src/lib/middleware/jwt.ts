@@ -39,7 +39,7 @@ export const verifyToken = (
     ? req.headers.token[0]
     : req.headers.token;
 
-  if (!_.isUndefined(token)) {
+  if (!_.isEmpty(token)) {
     const jwtItem: any = jwt.verify(token, env.jwtSecret);
 
     if (now > jwtItem.exp) {

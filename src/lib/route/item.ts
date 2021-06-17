@@ -5,7 +5,6 @@ export interface RouteItemIE {
   method: string;
   next: Function;
   auth: boolean;
-  role: string; // 혹시 몰라서 확장
 }
 
 export default [
@@ -14,13 +13,11 @@ export default [
     method: "post",
     next: Auth.signIn,
     auth: false,
-    role: "ALL",
   },
   {
-    path: "/signOut",
+    path: "/signUp",
     method: "post",
-    next: Auth.signOut,
+    next: Auth.signUp,
     auth: true,
-    role: "ALL",
   },
 ];
