@@ -8,7 +8,7 @@ import {
 } from "./lib";
 
 class App {
-  private server: Express.Application = createExpress();
+  private readonly server: Express.Application = createExpress();
 
   public onCreateRoute(): void {
     console.log("App Created Route");
