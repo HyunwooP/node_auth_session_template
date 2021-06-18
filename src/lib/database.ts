@@ -1,6 +1,6 @@
 import env from "../config";
 import { getConnectionOptions, createConnection, getManager } from "typeorm";
-import { User } from "../model/User/entity";
+import { User } from "../models/User/entity";
 import * as _ from "lodash";
 
 export const generateTestData = () => {

@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
-import { findOne, update } from "../../../model/User/controller";
-import { UserIE } from "../../../model/User/entity";
+import { findOne, update } from "../../User/controller";
+import { UserIE } from "../../User/entity";
 import { createToken } from "../../../lib";
 import { compareHash } from "../../../utils";
 import {

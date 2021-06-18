@@ -1,4 +1,4 @@
-import * as Auth from "../../model/Auth/controller";
+import * as Auth from "../../models/Auth/controller";
 
 export interface RouteItemIE {
   path: string;

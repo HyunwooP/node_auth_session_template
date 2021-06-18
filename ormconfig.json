@@ -9,7 +9,7 @@
     "synchronize": true,
     "logging": false,
     "dropSchema": true,
-    "entities": ["src/model/**/*.ts"]
+    "entities": ["src/models/**/*.ts"]
   },
   {
     "name": "production",
@@ -21,7 +21,7 @@
     "database": "",
     "synchronize": false,
     "logging": true,
-    "entities": ["src/model/**/*.ts"],
+    "entities": ["src/models/**/*.ts"],
     "migrationsTableName": "migrations",
     "cli": {
       "entitiesDir": "src/entity",
