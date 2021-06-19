@@ -1,4 +1,4 @@
-import { AppRepository } from "../../../lib/database";
+import { AppRepository } from "../../../lib/database/mysql";
 import { User, UserIE } from "../entity";
 
 export const findOneUser = async (conditions: UserIE) => {

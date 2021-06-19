@@ -15,6 +15,12 @@ export default [
     auth: false,
   },
   {
+    path: "/signOut",
+    method: "post",
+    next: Auth.signOut,
+    auth: false,
+  },
+  {
     path: "/signUp",
     method: "post",
     next: Auth.signUp,

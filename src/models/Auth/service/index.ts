@@ -1,9 +1,9 @@
 import * as _ from "lodash";
 
-import { findOne, update } from "../../User/controller";
+import { findOneUser, updateUser } from "../../../models/User/service";
 import { UserIE } from "../../User/entity";
-import { createToken } from "../../../lib";
-import { compareHash } from "../../../utils";
+import { createToken, Redis } from "../../../lib";
+import { compareHash, generateRefreshTokenKey } from "../../../utils";
 import {
   onFailureHandler,
   CommonStatusCode,
@@ -18,7 +18,7 @@ export const _signIn = async ({
   password: string;
 }) => {
   try {
-    const user: UserIE = await findOne({ email });
+    const user: UserIE = await findOneUser({ email });
 
     // DB 데이터 유효성 검사
     if (_.isUndefined(user)) {
@@ -36,8 +36,19 @@ export const _signIn = async ({
       });
     }
 
-    // 토큰 생성
+    const refreshToken = createToken({
+      email: user.email,
+      nickname: user.nickname,
+      jwtExpired: "3h",
+    });
+
+    // refreshToken 레디스 추가
+    Redis.set(generateRefreshTokenKey(user.email), refreshToken);
+
     return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
       token: createToken({ email: user.email, nickname: user.nickname }),
     };
   } catch (e) {
@@ -58,7 +69,7 @@ export const _signUp = async ({
   nickname: string;
 }) => {
   try {
-    let user: UserIE = await findOne({ email });
+    let user: UserIE = await findOneUser({ email });
 
     // 동일한 계정 정보가 있다면
     if (!_.isUndefined(user)) {
@@ -68,13 +79,26 @@ export const _signUp = async ({
       });
     }
 
-    user = await update({ email, password, nickname });
+    user = await updateUser({ email, password, nickname });
 
     return {
+      id: user.id,
       email: user.email,
       nickname: user.password,
       token: createToken({ email: user.email, nickname: user.nickname }),
     };
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+export const _signOut = async ({ email }: { email: string }) => {
+  try {
+    Redis.remove(generateRefreshTokenKey(email));
+    return {};
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,

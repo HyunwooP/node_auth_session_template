@@ -1,10 +1,11 @@
 import {
   createExpress,
   createServer,
-  connectDB,
+  connectMysql,
   connectRepository,
   generateTestData,
   createRoute,
+  Redis,
 } from "./lib";
 
 class App {
@@ -22,7 +23,8 @@ class App {
 
   public async onConnectDB(): Promise<void> {
     console.log("App Connected DB");
-    await connectDB();
+    await connectMysql();
+    await Redis.connectRedis();
   }
 
   public async onConnectRepository(): Promise<void> {

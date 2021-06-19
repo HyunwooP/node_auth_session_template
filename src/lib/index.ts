@@ -2,10 +2,11 @@ import { onFailureHandler } from "./function";
 import { CommonStatusCode, CommonStatusMessage } from "./status";
 import {
   AppRepository,
-  connectDB,
+  connectMysql,
   connectRepository,
   generateTestData,
-} from "./database";
+} from "./database/mysql";
+import Redis from "./database/redis";
 import { createServer } from "./server";
 import { createExpress } from "./express";
 import { verifyToken, createToken } from "./middleware";
@@ -21,7 +22,8 @@ export {
   onFailureHandler,
   CommonStatusCode,
   CommonStatusMessage,
-  connectDB,
+  connectMysql,
+  Redis,
   connectRepository,
   generateTestData, // example
 };

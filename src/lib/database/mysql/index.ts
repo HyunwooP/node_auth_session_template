@@ -1,7 +1,9 @@
-import env from "../config";
-import { getConnectionOptions, createConnection, getManager } from "typeorm";
-import { User } from "../models/User/entity";
 import * as _ from "lodash";
+import { createConnection, getManager } from "typeorm";
+import env from "../../../config";
+import { mysqlConfig } from "../config";
+
+import { User } from "../../../models/User/entity";
 
 export const generateTestData = () => {
   const temp = [
@@ -27,15 +29,15 @@ export const generateTestData = () => {
   });
 };
 
-export const connectDB = async () => {
-  const option = {
-    ...(await getConnectionOptions(env.node)),
+export const connectMysql = async () => {
+  const option: any = {
+    ...mysqlConfig[env.node],
     password: env.mysqlPassword,
   };
   try {
     await createConnection(option);
   } catch (e) {
-    console.log(`database Connect Failed!! ${e}`);
+    console.log(`connectMysql Connect Failed!! ${e}`);
   }
 };
 
