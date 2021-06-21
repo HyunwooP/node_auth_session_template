@@ -15,6 +15,7 @@ export default (app: any): void => {
             `SUCCESS_${_.toUpper(item.method)}_${_.toUpper(item.path)}`
           );
           console.log(result);
+          res.status(result.status ?? CommonStatusCode.OK);
           res.send(result);
         } catch (e) {
           console.log(

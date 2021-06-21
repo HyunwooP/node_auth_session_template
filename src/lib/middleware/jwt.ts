@@ -47,8 +47,10 @@ export const verifyToken = async (
      * 로그인 상태
      */
     try {
-      const now = new Date().getTime();
-      const jwtItem: any = jwt.verify(token, env.jwtSecret);
+      const now = new Date().getTime() / 1000;
+      const jwtItem: any = jwt.verify(token, env.jwtSecret, {
+        ignoreExpiration: true,
+      });
 
       // 토큰이 유효하지 않다.
       if (now > jwtItem.exp) {
@@ -58,34 +60,33 @@ export const verifyToken = async (
 
         if (_.isEmpty(refreshToken)) {
           // 헤더에 토큰은 있으나, Redis에 refresh token이 상실되었다면
-          res.status(CommonStatusCode.UNAUTHORIZED);
+          res.sendStatus(CommonStatusCode.UNAUTHORIZED);
         }
 
-        const refreshTokenItem: any = jwt.verify(refreshToken, env.jwtSecret);
-
+        const refreshTokenItem: any = jwt.verify(refreshToken, env.jwtSecret, {
+          ignoreExpiration: true,
+        });
         if (now > refreshTokenItem.exp) {
           // 유효하지 않은 refresh token 삭제
           Redis.remove(generateRefreshTokenKey(refreshTokenItem.email));
           // refresh token이 유효하지 않기 때문에 로그인 재요청
-          res.status(CommonStatusCode.UNAUTHORIZED);
+          res.sendStatus(CommonStatusCode.UNAUTHORIZED);
         } else {
           // 토큰 연장
-          res.send({
+          res.status(CommonStatusCode.CREATE).send({
             token: createToken({
               email: refreshTokenItem.email,
               nickname: refreshTokenItem.nickname,
-              jwtExpired: "1h",
+              jwtExpired: env.jwtExpired,
             }),
           });
-          // 컨트롤러 이동
-          next();
         }
       } else {
         // 토큰이 유효하다.
         next();
       }
     } catch (e) {
-      res.status(CommonStatusCode.UNAUTHORIZED);
+      res.sendStatus(CommonStatusCode.UNAUTHORIZED);
     }
   } else {
     /**

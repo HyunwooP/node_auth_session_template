@@ -49,12 +49,16 @@ export const _signIn = async ({
       id: user.id,
       email: user.email,
       nickname: user.nickname,
-      token: createToken({ email: user.email, nickname: user.nickname }),
+      token: createToken({
+        email: user.email,
+        nickname: user.nickname,
+      }),
     };
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
       message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
     });
   }
 };
@@ -91,18 +95,27 @@ export const _signUp = async ({
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
       message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
     });
   }
 };
 
 export const _signOut = async ({ email }: { email: string }) => {
   try {
+    if (_.isEmpty(email)) {
+      onFailureHandler({
+        status: CommonStatusCode.NOT_FOUND,
+        message: CommonStatusMessage.NOT_FOUND,
+      });
+    }
+
     Redis.remove(generateRefreshTokenKey(email));
     return {};
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
       message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
     });
   }
 };
