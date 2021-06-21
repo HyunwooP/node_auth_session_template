@@ -9,21 +9,37 @@ import {
 import Redis from "./database/redis";
 import { createServer } from "./server";
 import { createExpress } from "./express";
-import { verifyToken, createToken } from "./middleware";
+import {
+  initMiddleWare,
+  RequestIE,
+  ResponseIE,
+  payloadToken,
+  createToken,
+  checkToken,
+} from "./middleware";
 import createRoute from "./route";
 
 export {
-  AppRepository,
+  // server
   createExpress,
   createServer,
   createRoute,
-  verifyToken,
-  createToken,
+  // common function
   onFailureHandler,
+  // common status
   CommonStatusCode,
   CommonStatusMessage,
+  // database
   connectMysql,
   Redis,
+  AppRepository,
   connectRepository,
   generateTestData, // example
+  // middleware
+  initMiddleWare,
+  RequestIE,
+  ResponseIE,
+  payloadToken,
+  createToken,
+  checkToken,
 };

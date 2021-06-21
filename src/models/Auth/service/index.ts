@@ -2,12 +2,14 @@ import * as _ from "lodash";
 
 import { findOneUser, updateUser } from "../../../models/User/service";
 import { UserIE } from "../../User/entity";
-import { createToken, Redis } from "../../../lib";
 import { compareHash, generateRefreshTokenKey } from "../../../utils";
 import {
+  createToken,
+  Redis,
   onFailureHandler,
   CommonStatusCode,
   CommonStatusMessage,
+  payloadToken,
 } from "../../../lib";
 
 export const _signIn = async ({
@@ -37,6 +39,7 @@ export const _signIn = async ({
     }
 
     const refreshToken = createToken({
+      id: user.id,
       email: user.email,
       nickname: user.nickname,
       jwtExpired: "3h",
@@ -50,6 +53,7 @@ export const _signIn = async ({
       email: user.email,
       nickname: user.nickname,
       token: createToken({
+        id: user.id,
         email: user.email,
         nickname: user.nickname,
       }),
@@ -89,7 +93,11 @@ export const _signUp = async ({
       id: user.id,
       email: user.email,
       nickname: user.password,
-      token: createToken({ email: user.email, nickname: user.nickname }),
+      token: createToken({
+        id: user.id,
+        email: user.email,
+        nickname: user.nickname,
+      }),
     };
   } catch (e) {
     onFailureHandler({
@@ -100,16 +108,18 @@ export const _signUp = async ({
   }
 };
 
-export const _signOut = async ({ email }: { email: string }) => {
+export const _signOut = async (token: string) => {
   try {
-    if (_.isEmpty(email)) {
+    const payload: any = payloadToken(token);
+
+    if (_.isEmpty(payload.email)) {
       onFailureHandler({
         status: CommonStatusCode.NOT_FOUND,
         message: CommonStatusMessage.NOT_FOUND,
       });
     }
 
-    Redis.remove(generateRefreshTokenKey(email));
+    Redis.remove(generateRefreshTokenKey(payload.email));
     return {};
   } catch (e) {
     onFailureHandler({

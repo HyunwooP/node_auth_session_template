@@ -1,11 +1,10 @@
-import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import * as _ from "lodash";
 
-import { CommonStatusCode } from "../status";
-import { Redis } from "../../lib";
-import env from "../../config";
+import { RequestIE, ResponseIE } from ".";
+import { Redis, CommonStatusCode } from "..";
 import { generateRefreshTokenKey } from "../../utils";
+import env from "../../config";
 
 /**
  * @description
@@ -15,32 +14,43 @@ import { generateRefreshTokenKey } from "../../utils";
  * @returns {string} token
  */
 export const createToken = ({
+  id,
   email,
   nickname,
   jwtExpired,
 }: {
+  id: number;
   email: string;
   nickname: string;
   jwtExpired?: string | number;
 }) => {
   return jwt.sign(
     {
+      id,
       email,
-      nickname: nickname,
+      nickname,
     },
     env.jwtSecret,
     { expiresIn: jwtExpired ?? env.jwtExpired }
   );
 };
 
-export const verifyToken = async (
-  req: express.Request,
-  res: express.Response,
+export const payloadToken = (token: string) => {
+  if (!_.isEmpty(token)) {
+    return jwt.verify(token, env.jwtSecret, {
+      ignoreExpiration: true,
+    });
+  }
+
+  return {};
+};
+
+export const checkToken = async (
+  req: RequestIE,
+  res: ResponseIE,
   next: Function
 ) => {
-  const token = _.isArray(req.headers.token)
-    ? req.headers.token[0]
-    : req.headers.token;
+  const token = req.token;
 
   if (!_.isEmpty(token)) {
     /**
@@ -48,14 +58,12 @@ export const verifyToken = async (
      */
     try {
       const now = new Date().getTime() / 1000;
-      const jwtItem: any = jwt.verify(token, env.jwtSecret, {
-        ignoreExpiration: true,
-      });
+      const jwtPayload: any = payloadToken(token);
 
       // 토큰이 유효하지 않다.
-      if (now > jwtItem.exp) {
+      if (now > jwtPayload.exp) {
         const refreshToken = await Redis.get(
-          generateRefreshTokenKey(jwtItem.email)
+          generateRefreshTokenKey(jwtPayload.email)
         );
 
         if (_.isEmpty(refreshToken)) {
@@ -63,20 +71,19 @@ export const verifyToken = async (
           res.sendStatus(CommonStatusCode.UNAUTHORIZED);
         }
 
-        const refreshTokenItem: any = jwt.verify(refreshToken, env.jwtSecret, {
-          ignoreExpiration: true,
-        });
-        if (now > refreshTokenItem.exp) {
+        const refreshTokenPayload: any = payloadToken(refreshToken);
+        if (now > refreshTokenPayload.exp) {
           // 유효하지 않은 refresh token 삭제
-          Redis.remove(generateRefreshTokenKey(refreshTokenItem.email));
+          Redis.remove(generateRefreshTokenKey(refreshTokenPayload.email));
           // refresh token이 유효하지 않기 때문에 로그인 재요청
           res.sendStatus(CommonStatusCode.UNAUTHORIZED);
         } else {
           // 토큰 연장
           res.status(CommonStatusCode.CREATE).send({
             token: createToken({
-              email: refreshTokenItem.email,
-              nickname: refreshTokenItem.nickname,
+              id: refreshTokenPayload.id,
+              email: refreshTokenPayload.email,
+              nickname: refreshTokenPayload.nickname,
               jwtExpired: env.jwtExpired,
             }),
           });
