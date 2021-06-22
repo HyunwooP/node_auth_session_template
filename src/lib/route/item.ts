@@ -14,7 +14,7 @@ export default [
     path: "/findUserProfile",
     method: "get",
     next: User.findProfile,
-    auth: false,
+    auth: true,
   },
   {
     path: "/findContents",
@@ -33,12 +33,12 @@ export default [
     path: "/signOut",
     method: "post",
     next: Auth.signOut,
-    auth: false,
+    auth: true,
   },
   {
     path: "/signUp",
     method: "post",
     next: Auth.signUp,
-    auth: true,
+    auth: false,
   },
 ];

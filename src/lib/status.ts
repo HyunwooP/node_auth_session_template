@@ -1,5 +1,6 @@
 export enum CommonStatusCode {
   UNAUTHORIZED = 401,
+  FOR_BIDDEN = 403,
   NOT_FOUND = 404,
   OK = 200,
   CREATE = 201,
@@ -10,6 +11,7 @@ export enum CommonStatusCode {
 
 export enum CommonStatusMessage {
   UNAUTHORIZED = "UNAUTHORIZED", // 인증 실패
+  FORBIDDEN = "FORBIDDEN",
   NOT_FOUND = "NOT_FOUND", // 리소스 및 데이터 없음
   OK = "OK", // 정상 처리
   CREATE = "CREATE",

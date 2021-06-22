@@ -1,3 +1,5 @@
+import { onFailureHandler } from "lib/function";
+import { CommonStatusMessage } from "lib/status";
 import * as _ from "lodash";
 import { CommonStatusCode, initMiddleWare, RequestIE, ResponseIE } from "..";
 import RouteItems, { RouteItemIE } from "./item";
@@ -9,6 +11,16 @@ export default (app: any): void => {
       initMiddleWare,
       async (req: RequestIE, res: ResponseIE) => {
         try {
+          /**
+           * 해당 API가 로그인이 필요한 서비스라면, 비로그인일 시 차단
+           */
+          if (item.auth === true && _.isEmpty(req.token)) {
+            onFailureHandler({
+              status: CommonStatusCode.FOR_BIDDEN,
+              message: CommonStatusMessage.FORBIDDEN,
+            });
+          }
+
           const result = await item.next(req, res);
           console.log(`SUCCESS_${_.toUpper(item.method)}_${item.path}`);
           res.status(result.status ?? CommonStatusCode.OK);
