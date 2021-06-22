@@ -1,6 +1,6 @@
 export enum CommonStatusCode {
   UNAUTHORIZED = 401,
-  FOR_BIDDEN = 403,
+  FORBIDDEN = 403,
   NOT_FOUND = 404,
   OK = 200,
   CREATE = 201,

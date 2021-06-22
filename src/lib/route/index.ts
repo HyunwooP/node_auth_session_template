@@ -16,7 +16,7 @@ export default (app: any): void => {
            */
           if (item.auth === true && _.isEmpty(req.token)) {
             onFailureHandler({
-              status: CommonStatusCode.FOR_BIDDEN,
+              status: CommonStatusCode.FORBIDDEN,
               message: CommonStatusMessage.FORBIDDEN,
             });
           }
