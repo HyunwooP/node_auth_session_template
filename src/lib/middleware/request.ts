@@ -9,10 +9,10 @@ export default (req: RequestIE) => {
 const createItem = (req: RequestIE) => {
   switch (req.method) {
     case "GET":
-      req.item = { ...req.query };
+      req.item = { ...req.query } ?? {};
       break;
     case "POST":
-      req.item = { ...req.body };
+      req.item = { ...req.body } ?? {};
       break;
   }
 };
@@ -22,5 +22,5 @@ const createToken = (req: RequestIE) => {
     ? req.headers.token[0]
     : req.headers.token;
 
-  req.token = token;
+  req.token = token ?? "";
 };
