@@ -5,8 +5,8 @@ export const findOneUser = async (conditions: UserIE) => {
   return await AppRepository.User.findOne(conditions);
 };
 
-export const findUser = async () => {
-  return await AppRepository.User.find();
+export const findUser = async (conditions: UserIE) => {
+  return await AppRepository.User.find(conditions);
 };
 
 export const updateUser = async (conditions: UserIE) => {

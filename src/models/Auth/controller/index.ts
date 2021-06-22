@@ -1,3 +1,4 @@
+import { UserIE } from "../../../models/User/entity";
 import { RequestIE, ResponseIE } from "../../../lib";
 import { _signIn, _signUp, _signOut } from "../service";
 
@@ -6,7 +7,8 @@ export const signIn = async (
   res: ResponseIE,
   next: Function
 ) => {
-  return await _signIn({ email: req.body.email, password: req.body.password });
+  const conditions: UserIE = req.item;
+  return await _signIn(conditions);
 };
 
 export const signUp = async (
@@ -14,11 +16,8 @@ export const signUp = async (
   res: ResponseIE,
   next: Function
 ) => {
-  return await _signUp({
-    email: req.body.email,
-    password: req.body.password,
-    nickname: req.body.nickname,
-  });
+  const conditions: UserIE = req.item;
+  return await _signUp(conditions);
 };
 
 export const signOut = async (
@@ -26,5 +25,6 @@ export const signOut = async (
   res: ResponseIE,
   next: Function
 ) => {
-  return await _signOut(req.token);
+  const conditions: string = req.token;
+  return await _signOut(conditions);
 };

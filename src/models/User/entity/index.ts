@@ -1,3 +1,4 @@
+import { CommonEntity } from "../../Common";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { hashSync } from "../../../utils";
 
@@ -9,18 +10,18 @@ export interface UserIE {
   isDeleted?: boolean;
 }
 @Entity("user")
-export class User implements UserIE {
+export class User extends CommonEntity implements UserIE {
   @PrimaryGeneratedColumn({ name: "user_id" })
   id: number;
 
-  @Column({ name: "user_email", length: 50, unique: true })
+  @Column({ name: "user_em", length: 50, unique: true })
   email: string;
 
-  @Column({ name: "user_nickname", length: 10 })
+  @Column({ name: "user_nm", length: 10 })
   nickname: string;
 
   @Column({
-    name: "user_password",
+    name: "user_pw",
     length: 200,
     transformer: {
       to: (str: string) => hashSync(str),
@@ -29,6 +30,6 @@ export class User implements UserIE {
   })
   password: string;
 
-  @Column({ default: false })
+  @Column({ name: "user_del", default: false })
   isDeleted: boolean;
 }

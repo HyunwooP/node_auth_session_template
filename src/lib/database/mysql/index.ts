@@ -1,32 +1,34 @@
 import * as _ from "lodash";
-import { createConnection, getManager } from "typeorm";
+import { createConnection, getManager, Repository } from "typeorm";
 import env from "../../../config";
 import { mysqlConfig } from "../config";
 
 import { User } from "../../../models/User/entity";
+import { Contents } from "../../../models/Contents/entity";
+import { sampleContents, sampleUsers } from "./sample";
 
 export const generateTestData = () => {
-  const temp = [
-    {
-      email: "awakelife93@gmail.com",
-      password: "123",
-      nickname: "Harry",
-    },
-    {
-      email: "bob@gmail.com",
-      password: "123",
-      nickname: "Bob",
-    },
-  ];
-  const UserRepository = getManager(env.node).getRepository(User);
-  temp.forEach((item: any, idx: number) => {
-    const user = new User();
-    user.id = idx + 1;
-    user.email = item.email;
-    user.password = item.password;
-    user.nickname = item.nickname;
-    UserRepository.save(user);
-  });
+  Promise.all([
+    (() =>
+      sampleUsers.forEach((item: any, idx: number) => {
+        const user = new User();
+        user.id = idx + 1;
+        user.email = item.email;
+        user.password = item.password;
+        user.nickname = item.nickname;
+        AppRepository.User.save(user);
+      }))(),
+    (() =>
+      sampleContents.forEach((item: any, idx: number) => {
+        const contents = new Contents();
+        contents.id = idx + 1;
+        contents.imageLink = item.imageLink;
+        contents.title = item.title + idx;
+        contents.subTitle = item.subTitle + idx;
+        contents.description = item.description + idx;
+        AppRepository.Contents.save(contents);
+      }))(),
+  ]).catch((e) => console.log("generateTestData FAiled!!", e));
 };
 
 export const connectMysql = async () => {
@@ -41,9 +43,13 @@ export const connectMysql = async () => {
   }
 };
 
-export const AppRepository: any = {};
+export const AppRepository: {
+  User?: Repository<User>;
+  Contents?: Repository<Contents>;
+} = {};
 export const connectRepository = async () => {
   if (_.isEmpty(AppRepository)) {
     AppRepository.User = getManager(env.node).getRepository(User);
+    AppRepository.Contents = getManager(env.node).getRepository(Contents);
   }
 };

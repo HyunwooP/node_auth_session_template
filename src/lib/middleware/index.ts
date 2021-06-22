@@ -4,6 +4,7 @@ import generateRequest from "./request";
 import generateResponse from "./response";
 interface RequestIE extends express.Request {
   token: string;
+  item: any;
 }
 
 interface ResponseIE extends express.Response {}
