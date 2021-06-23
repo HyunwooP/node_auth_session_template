@@ -9,18 +9,20 @@ export default (req: RequestIE) => {
 const createItem = (req: RequestIE) => {
   switch (req.method) {
     case "GET":
-      req.item = { ...req.query } ?? {};
+      const query: any = { ...req.query };
+      req.item = query;
       break;
     case "POST":
-      req.item = { ...req.body } ?? {};
+      const body: any = { ...req.body };
+      req.item = body;
       break;
   }
 };
 
 const createToken = (req: RequestIE) => {
-  const token = _.isArray(req.headers.token)
-    ? req.headers.token[0]
-    : req.headers.token;
+  const token =
+    !_.isEmpty(req.headers.authorization) &&
+    req.headers.authorization.replace("Bearer ", "");
 
   req.token = token ?? "";
 };

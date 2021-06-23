@@ -28,7 +28,7 @@ export const generateTestData = () => {
         contents.description = item.description + idx;
         AppRepository.Contents.save(contents);
       }))(),
-  ]).catch((e) => console.log("generateTestData FAiled!!", e));
+  ]).catch((e) => console.log("generateTestData Failed!!", e));
 };
 
 export const connectMysql = async () => {

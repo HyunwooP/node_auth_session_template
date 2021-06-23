@@ -27,6 +27,7 @@ export default (app: any): void => {
           res.send(result);
         } catch (e) {
           console.log(`ERROR_${_.toUpper(item.method)}_${item.path}`);
+          console.log(e);
           res.status(e.status ?? CommonStatusCode.BAD_REQUEST);
           res.send(e);
         }
