@@ -48,7 +48,6 @@ export const update = async (
   const conditions: UserIE = req.item;
   return await updateUser(conditions);
 };
-/****************************************************/
 
 /**
  * @method GET
