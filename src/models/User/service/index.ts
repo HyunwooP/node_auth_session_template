@@ -1,3 +1,4 @@
+import _ = require("lodash");
 import { payloadToken, AppRepository } from "../../../lib";
 import { User, UserIE } from "../entity";
 
@@ -10,9 +11,8 @@ export const findUser = async (conditions: UserIE) => {
 };
 
 export const updateUser = async (conditions: UserIE) => {
-  const user = new User();
+  const user: UserIE = new User();
 
-  user.email = conditions.email;
   user.nickname = conditions.nickname;
   user.password = conditions.password;
 

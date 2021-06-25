@@ -1,4 +1,4 @@
-import { CommonEntity } from "../../Common";
+import { CommonEntity } from "../../Common/entity";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { hashSync } from "../../../utils";
 

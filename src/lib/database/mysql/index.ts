@@ -5,7 +5,8 @@ import { mysqlConfig } from "../config";
 
 import { User } from "../../../models/User/entity";
 import { Contents } from "../../../models/Contents/entity";
-import { sampleContents, sampleUsers } from "./sample";
+import { sampleContents } from "./sample/contents";
+import { sampleUsers } from "./sample/users";
 
 export const generateTestData = () => {
   Promise.all([

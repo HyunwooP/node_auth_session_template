@@ -1,12 +1,13 @@
 import * as _ from "lodash";
 import { RequestIE } from ".";
 
-export default (req: RequestIE) => {
-  createToken(req);
-  createItem(req);
+export default (req: RequestIE): void => {
+  Promise.all([createToken(req), createItem(req)]).catch((e) =>
+    console.log("Generate Middleware Failed", e)
+  );
 };
 
-const createItem = (req: RequestIE) => {
+const createItem = (req: RequestIE): void => {
   switch (req.method) {
     case "GET":
       const query: any = { ...req.query };
@@ -19,7 +20,7 @@ const createItem = (req: RequestIE) => {
   }
 };
 
-const createToken = (req: RequestIE) => {
+const createToken = (req: RequestIE): void => {
   const token =
     !_.isEmpty(req.headers.authorization) &&
     req.headers.authorization.replace("Bearer ", "");

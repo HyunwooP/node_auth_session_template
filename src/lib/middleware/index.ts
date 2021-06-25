@@ -15,10 +15,18 @@ interface RequestIE extends express.Request {
 
 interface ResponseIE extends express.Response {}
 
-const initMiddleWare = (req: RequestIE, res: ResponseIE, next: Function) => {
-  generateRequest(req);
-  generateResponse(res);
-  checkToken(req, res, next);
+const initMiddleWare = async (
+  req: RequestIE,
+  res: ResponseIE,
+  next: Function
+) => {
+  try {
+    await generateRequest(req);
+    await generateResponse(res);
+    checkToken(req, res, next);
+  } catch (e) {
+    console.log("initMiddleWare Error", e);
+  }
 };
 
 export {

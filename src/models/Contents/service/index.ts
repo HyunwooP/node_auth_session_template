@@ -10,6 +10,11 @@ export const findContents = async (conditions: ContentsIE) => {
 };
 
 export const updateContents = async (conditions: ContentsIE) => {
-  const contents = new Contents();
+  const contents: ContentsIE = new Contents();
+
+  contents.imageLink = conditions.imageLink;
+  contents.title = conditions.title;
+  contents.subTitle = conditions.subTitle;
+
   return await AppRepository.Contents.save(contents);
 };
