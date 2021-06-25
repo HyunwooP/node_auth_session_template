@@ -10,10 +10,12 @@ export default (req: RequestIE): void => {
 const createItem = (req: RequestIE): void => {
   switch (req.method) {
     case "GET":
+    case "DELETE":
       const query: any = { ...req.query };
       req.item = query;
       break;
     case "POST":
+    case "PUT":
       const body: any = { ...req.body };
       req.item = body;
       break;

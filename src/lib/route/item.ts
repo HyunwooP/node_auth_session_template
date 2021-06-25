@@ -35,9 +35,10 @@ export default [
     next: Auth.signOut,
     auth: true,
   },
+  // PUT
   {
     path: "/signUp",
-    method: "post",
+    method: "put",
     next: Auth.signUp,
     auth: false,
   },

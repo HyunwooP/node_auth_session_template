@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { findOneUser, updateUser } from "../../../models/User/service";
+import { findOneUser, createUser } from "../../../models/User/service";
 import { UserIE } from "../../User/entity";
 import { compareHash, generateRefreshTokenKey } from "../../../utils";
 import {
@@ -73,7 +73,7 @@ export const _signUp = async (conditions: UserIE) => {
       });
     }
 
-    user = await updateUser(conditions);
+    user = await createUser(conditions);
 
     return {
       id: user.id,
