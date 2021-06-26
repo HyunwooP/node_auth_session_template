@@ -25,11 +25,11 @@ const initMiddleWare = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<void> => {
   try {
     await generateRequest(req);
     await generateResponse(res);
-    checkToken(req, res, next);
+    await checkToken(req, res, next);
   } catch (e) {
     console.log("initMiddleWare Error", e);
   }
