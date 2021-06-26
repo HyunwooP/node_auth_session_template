@@ -1,10 +1,10 @@
-import { PayLoadIE, RequestIE, ResponseIE } from "../../../lib";
+import { RequestIE, ResponseIE } from "../../../lib";
 import {
   removeUser,
   findOneUser,
   findUser,
-  findPayLoad,
   updateUser,
+  findUserProfile,
 } from "../service";
 import { UserIE } from "../entity";
 
@@ -50,14 +50,14 @@ export const find = async (
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
- * @returns {Promise<PayLoadIE>}
+ * @returns {Promise<UserIE>}
  */
 export const findProfile = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-): Promise<PayLoadIE> => {
-  return await findPayLoad(req.token);
+): Promise<UserIE> => {
+  return await findUserProfile(req.token);
 };
 
 /**

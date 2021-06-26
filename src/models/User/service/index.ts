@@ -69,7 +69,7 @@ export const updateUser = async (conditions: UserIE): Promise<UserIE> => {
 
 export const removeUser = async (token: string): Promise<object> => {
   try {
-    const payload: PayLoadIE = await findPayLoad(token);
+    const payload: PayLoadIE = await getPayload(token);
     await updateUser({ id: payload.id, isDeleted: true });
     return await _signOut(token);
   } catch (e) {
@@ -81,9 +81,16 @@ export const removeUser = async (token: string): Promise<object> => {
   }
 };
 
-export const findPayLoad = async (token: string): Promise<PayLoadIE> => {
+export const findUserProfile = async (token: string): Promise<UserIE> => {
   try {
-    return await getPayload(token);
+    const payload: PayLoadIE = await getPayload(token);
+    const user: UserIE = await findOneUser({ id: payload.id });
+
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+    };
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,

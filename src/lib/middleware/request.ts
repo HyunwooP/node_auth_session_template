@@ -16,6 +16,7 @@ const createItem = (req: RequestIE): void => {
       break;
     case "POST":
     case "PUT":
+    case "PATCH":
       const body: any = { ...req.body };
       req.item = body;
       break;

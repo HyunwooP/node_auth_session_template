@@ -15,25 +15,21 @@ import env from "../../config";
  * @description
  * 토큰안에 필요한 payload를 정립할 것.
  * @param {string} email
- * @param {string} nickname
  * @returns {string} token
  */
 export const createToken = ({
   id,
   email,
-  nickname,
   jwtExpired,
 }: {
   id: number;
   email: string;
-  nickname: string;
   jwtExpired?: string | number;
 }): string => {
   return jwt.sign(
     {
       id,
       email,
-      nickname,
     },
     env.jwtSecret,
     { expiresIn: jwtExpired ?? env.jwtExpired }
@@ -88,7 +84,6 @@ export const checkToken = async (
             token: createToken({
               id: refreshTokenPayload.id,
               email: refreshTokenPayload.email,
-              nickname: refreshTokenPayload.nickname,
               jwtExpired: env.jwtExpired,
             }),
           });
@@ -111,7 +106,6 @@ export const checkToken = async (
 export interface PayLoadIE {
   id: number;
   email: string;
-  nickname: string;
 }
 export const getPayload = (token: string): PayLoadIE => {
   const payload: any = payloadToken(token);
@@ -126,6 +120,5 @@ export const getPayload = (token: string): PayLoadIE => {
   return {
     id: payload.id,
     email: payload.email,
-    nickname: payload.nickname,
   };
 };

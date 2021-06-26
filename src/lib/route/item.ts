@@ -3,7 +3,7 @@ import * as User from "../../models/User/controller";
 import * as Contents from "../../models/Contents/controller";
 export interface RouteItemIE {
   path: string;
-  method: "get" | "post" | "put" | "delete";
+  method: "get" | "post" | "put" | "delete" | "patch";
   next: Function;
   auth: boolean;
 }
@@ -47,6 +47,13 @@ const item: RouteItemIE[] = [
     path: "/removeUser",
     method: "delete",
     next: User.remove,
+    auth: true,
+  },
+  // PATCH
+  {
+    path: "/updateUser",
+    method: "patch",
+    next: User.update,
     auth: true,
   },
 ];

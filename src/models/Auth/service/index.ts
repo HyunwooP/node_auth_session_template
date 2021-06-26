@@ -1,9 +1,5 @@
 import * as _ from "lodash";
-import {
-  findOneUser,
-  createUser,
-  findPayLoad,
-} from "../../../models/User/service";
+import { findOneUser, createUser } from "../../../models/User/service";
 import { UserIE } from "../../User/entity";
 import { compareHash, generateRefreshTokenKey } from "../../../utils";
 import {
@@ -13,6 +9,7 @@ import {
   CommonStatusCode,
   CommonStatusMessage,
   PayLoadIE,
+  getPayload,
 } from "../../../lib";
 
 export const _signIn = async (conditions: UserIE): Promise<UserIE> => {
@@ -41,7 +38,6 @@ export const _signIn = async (conditions: UserIE): Promise<UserIE> => {
     const refreshToken = createToken({
       id: user.id,
       email: user.email,
-      nickname: user.nickname,
       jwtExpired: "3h",
     });
 
@@ -55,7 +51,6 @@ export const _signIn = async (conditions: UserIE): Promise<UserIE> => {
       token: createToken({
         id: user.id,
         email: user.email,
-        nickname: user.nickname,
       }),
     };
   } catch (e) {
@@ -88,7 +83,6 @@ export const _signUp = async (conditions: UserIE): Promise<UserIE> => {
       token: createToken({
         id: user.id,
         email: user.email,
-        nickname: user.nickname,
       }),
     };
   } catch (e) {
@@ -102,7 +96,7 @@ export const _signUp = async (conditions: UserIE): Promise<UserIE> => {
 
 export const _signOut = async (token: string): Promise<object> => {
   try {
-    const payload: PayLoadIE = await findPayLoad(token);
+    const payload: PayLoadIE = await getPayload(token);
 
     if (_.isEmpty(payload.email)) {
       onFailureHandler({
