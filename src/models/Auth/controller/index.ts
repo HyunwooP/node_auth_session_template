@@ -7,12 +7,13 @@ import { _signIn, _signUp, _signOut } from "../service";
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<UserIE>}
  */
 export const signIn = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<UserIE> => {
   const conditions: UserIE = req.item;
   return await _signIn(conditions);
 };
@@ -22,12 +23,13 @@ export const signIn = async (
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<UserIE>}
  */
 export const signUp = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<UserIE> => {
   const conditions: UserIE = req.item;
   return await _signUp(conditions);
 };
@@ -37,12 +39,13 @@ export const signUp = async (
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<object>}
  */
 export const signOut = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<object> => {
   const conditions: string = req.token;
   return await _signOut(conditions);
 };

@@ -1,6 +1,9 @@
 import * as _ from "lodash";
-
-import { findOneUser, createUser } from "../../../models/User/service";
+import {
+  findOneUser,
+  createUser,
+  findPayLoad,
+} from "../../../models/User/service";
 import { UserIE } from "../../User/entity";
 import { compareHash, generateRefreshTokenKey } from "../../../utils";
 import {
@@ -9,12 +12,15 @@ import {
   onFailureHandler,
   CommonStatusCode,
   CommonStatusMessage,
-  payloadToken,
+  PayLoadIE,
 } from "../../../lib";
 
-export const _signIn = async (conditions: UserIE) => {
+export const _signIn = async (conditions: UserIE): Promise<UserIE> => {
   try {
-    const user: UserIE = await findOneUser({ email: conditions.email });
+    const user: UserIE = await findOneUser({
+      email: conditions.email,
+      isDeleted: false,
+    });
 
     // DB 데이터 유효성 검사
     if (_.isUndefined(user)) {
@@ -61,7 +67,7 @@ export const _signIn = async (conditions: UserIE) => {
   }
 };
 
-export const _signUp = async (conditions: UserIE) => {
+export const _signUp = async (conditions: UserIE): Promise<UserIE> => {
   try {
     let user: UserIE = await findOneUser({ email: conditions.email });
 
@@ -94,9 +100,9 @@ export const _signUp = async (conditions: UserIE) => {
   }
 };
 
-export const _signOut = async (token: string) => {
+export const _signOut = async (token: string): Promise<object> => {
   try {
-    const payload: any = payloadToken(token);
+    const payload: PayLoadIE = await findPayLoad(token);
 
     if (_.isEmpty(payload.email)) {
       onFailureHandler({

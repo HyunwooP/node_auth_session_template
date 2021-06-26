@@ -1,5 +1,10 @@
 import { RequestIE, ResponseIE } from "../../../lib";
-import { findContents, findOneContents, updateContents } from "../service";
+import {
+  findContents,
+  findOneContents,
+  removeContents,
+  updateContents,
+} from "../service";
 import { ContentsIE } from "../entity";
 
 /**
@@ -13,12 +18,13 @@ import { ContentsIE } from "../entity";
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<ContentsIE>}
  */
 export const findOne = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<ContentsIE> => {
   const conditions: ContentsIE = req.item;
   return await findOneContents(conditions);
 };
@@ -28,8 +34,13 @@ export const findOne = async (
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<ContentsIE[]>}
  */
-export const find = async (req: RequestIE, res: ResponseIE, next: Function) => {
+export const find = async (
+  req: RequestIE,
+  res: ResponseIE,
+  next: Function
+): Promise<ContentsIE[]> => {
   const conditions: ContentsIE = req.item;
   return await findContents(conditions);
 };
@@ -39,12 +50,29 @@ export const find = async (req: RequestIE, res: ResponseIE, next: Function) => {
  * @param {RequestIE} req
  * @param {ResponseIE} res
  * @param {Function} next
+ * @returns {Promise<ContentsIE>}
  */
 export const update = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<ContentsIE> => {
   const conditions: ContentsIE = req.item;
   return await updateContents(conditions);
+};
+
+/**
+ * @method DELETE
+ * @param {RequestIE} req
+ * @param {ResponseIE} res
+ * @param {Function} next
+ * @returns {Promise<object>}
+ */
+export const remove = async (
+  req: RequestIE,
+  res: ResponseIE,
+  next: Function
+): Promise<object> => {
+  const conditions: ContentsIE = req.item;
+  return await removeContents(conditions);
 };

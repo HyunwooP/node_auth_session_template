@@ -1,47 +1,94 @@
-import _ = require("lodash");
-import { payloadToken, AppRepository } from "../../../lib";
-import { User, UserIE } from "../entity";
+import * as _ from "lodash";
+import {
+  getPayload,
+  AppRepository,
+  onFailureHandler,
+  CommonStatusCode,
+  CommonStatusMessage,
+  PayLoadIE,
+} from "../../../lib";
+import { UserIE } from "../entity";
+import { _signOut } from "../../../models/Auth/service";
 
-export const findOneUser = async (conditions: UserIE) => {
-  return await AppRepository.User.findOne(conditions);
+export const findOneUser = async (conditions: UserIE): Promise<UserIE> => {
+  try {
+    return await AppRepository.User.findOne(conditions);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };
 
-export const findUser = async (conditions: UserIE) => {
-  return await AppRepository.User.find(conditions);
+export const findUser = async (conditions: UserIE): Promise<UserIE[]> => {
+  try {
+    return await AppRepository.User.find(conditions);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };
 
-export const createUser = async (conditions: UserIE) => {
-  const user: UserIE = new User();
-
-  user.email = conditions.email;
-  user.nickname = conditions.nickname;
-  user.password = conditions.password;
-
-  return await AppRepository.User.save(user);
+export const createUser = async (conditions: UserIE): Promise<UserIE> => {
+  try {
+    return await AppRepository.User.save(conditions);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };
 
-export const updateUser = async (conditions: UserIE) => {
-  const user: UserIE = new User();
+export const updateUser = async (conditions: UserIE): Promise<UserIE> => {
+  try {
+    const user: UserIE = await findOneUser({ id: conditions.id });
 
-  user.nickname = conditions.nickname;
-  user.password = conditions.password;
+    if (_.isUndefined(user)) {
+      onFailureHandler({
+        status: CommonStatusCode.NOT_FOUND,
+        message: CommonStatusMessage.NOT_FOUND,
+      });
+    }
 
-  return await AppRepository.User.save(user);
+    return await AppRepository.User.save(conditions);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };
 
-export const deleteUser = async () => {
-  const user: UserIE = new User();
-
-  user.isDeleted = true;
-
-  return await AppRepository.User.save(user);
+export const removeUser = async (token: string): Promise<object> => {
+  try {
+    const payload: PayLoadIE = await findPayLoad(token);
+    await updateUser({ id: payload.id, isDeleted: true });
+    return await _signOut(token);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };
 
-export const findUserProfile = async (token: string) => {
-  const payload: any = payloadToken(token);
-
-  return {
-    email: payload.email,
-    nickname: payload.nickname,
-  };
+export const findPayLoad = async (token: string): Promise<PayLoadIE> => {
+  try {
+    return await getPayload(token);
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
 };

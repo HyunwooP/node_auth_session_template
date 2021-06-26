@@ -8,6 +8,7 @@ export interface UserIE {
   nickname?: string;
   password?: string;
   isDeleted?: boolean;
+  token?: string;
 }
 @Entity("user")
 export class User extends CommonEntity implements UserIE {

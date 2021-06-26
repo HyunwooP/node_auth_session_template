@@ -16,6 +16,8 @@ import {
   payloadToken,
   createToken,
   checkToken,
+  getPayload,
+  PayLoadIE,
 } from "./middleware";
 import createRoute from "./route";
 
@@ -42,4 +44,6 @@ export {
   payloadToken,
   createToken,
   checkToken,
+  getPayload,
+  PayLoadIE,
 };

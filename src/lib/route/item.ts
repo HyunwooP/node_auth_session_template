@@ -42,4 +42,11 @@ export default [
     next: Auth.signUp,
     auth: false,
   },
+  // DELETE
+  {
+    path: "/removeUser",
+    method: "delete",
+    next: User.remove,
+    auth: true,
+  },
 ];

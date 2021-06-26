@@ -1,5 +1,11 @@
 import * as express from "express";
-import { checkToken, payloadToken, createToken } from "./jwt";
+import {
+  checkToken,
+  payloadToken,
+  createToken,
+  getPayload,
+  PayLoadIE,
+} from "./jwt";
 import generateRequest from "./request";
 import generateResponse from "./response";
 interface RequestIE extends express.Request {
@@ -38,4 +44,6 @@ export {
   checkToken,
   payloadToken,
   createToken,
+  getPayload,
+  PayLoadIE,
 };

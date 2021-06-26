@@ -2,7 +2,12 @@ import * as jwt from "jsonwebtoken";
 import * as _ from "lodash";
 
 import { RequestIE, ResponseIE } from ".";
-import { Redis, CommonStatusCode } from "..";
+import {
+  Redis,
+  CommonStatusCode,
+  onFailureHandler,
+  CommonStatusMessage,
+} from "..";
 import { generateRefreshTokenKey } from "../../utils";
 import env from "../../config";
 
@@ -101,4 +106,26 @@ export const checkToken = async (
      */
     next();
   }
+};
+
+export interface PayLoadIE {
+  id: number;
+  email: string;
+  nickname: string;
+}
+export const getPayload = (token: string): PayLoadIE => {
+  const payload: any = payloadToken(token);
+
+  if (_.isEmpty(payload)) {
+    onFailureHandler({
+      status: CommonStatusCode.FORBIDDEN,
+      message: CommonStatusMessage.FORBIDDEN,
+    });
+  }
+
+  return {
+    id: payload.id,
+    email: payload.email,
+    nickname: payload.nickname,
+  };
 };
