@@ -1,3 +1,4 @@
+import * as express from "express";
 import {
   createExpress,
   createServer,
@@ -9,7 +10,7 @@ import {
 } from "./lib";
 
 class App {
-  private readonly server: Express.Application = createExpress();
+  private readonly server: express.Application = createExpress();
 
   public onCreateRoute(): void {
     console.log("App Created Route");

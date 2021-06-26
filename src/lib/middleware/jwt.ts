@@ -28,7 +28,7 @@ export const createToken = ({
   email: string;
   nickname: string;
   jwtExpired?: string | number;
-}) => {
+}): string => {
   return jwt.sign(
     {
       id,
@@ -40,7 +40,7 @@ export const createToken = ({
   );
 };
 
-export const payloadToken = (token: string) => {
+export const payloadToken = (token: string): string | object => {
   if (!_.isEmpty(token)) {
     return jwt.verify(token, env.jwtSecret, {
       ignoreExpiration: true,
@@ -54,7 +54,7 @@ export const checkToken = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
-) => {
+): Promise<void> => {
   const token = req.token;
 
   if (!_.isEmpty(token)) {

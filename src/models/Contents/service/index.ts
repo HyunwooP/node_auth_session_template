@@ -5,7 +5,7 @@ import {
   CommonStatusMessage,
   onFailureHandler,
 } from "../../../lib";
-import { Contents, ContentsIE } from "../entity";
+import { ContentsIE } from "../entity";
 
 export const findOneContents = async (
   conditions: ContentsIE

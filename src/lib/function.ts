@@ -8,7 +8,11 @@ export const onFailureHandler = ({
   status: number;
   message: string;
   data?: any;
-}) => {
+}): {
+  status: number;
+  message: string;
+  data?: any;
+} => {
   throw {
     status,
     message,

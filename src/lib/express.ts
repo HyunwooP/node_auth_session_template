@@ -9,7 +9,7 @@ const corsConfig = {
   credentials: true,
 };
 
-export const createExpress = () => {
+export const createExpress = (): express.Application => {
   const app: express.Application = express();
 
   app.use(cors(corsConfig));

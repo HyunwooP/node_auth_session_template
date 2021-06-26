@@ -8,7 +8,7 @@ import { Contents } from "../../../models/Contents/entity";
 import { sampleContents } from "./sample/contents";
 import { sampleUsers } from "./sample/users";
 
-export const generateTestData = () => {
+export const generateTestData = (): void => {
   Promise.all([
     (() =>
       sampleUsers.forEach((item: any, idx: number) => {
@@ -32,7 +32,7 @@ export const generateTestData = () => {
   ]).catch((e) => console.log("generateTestData Failed!!", e));
 };
 
-export const connectMysql = async () => {
+export const connectMysql = async (): Promise<void> => {
   const option: any = {
     ...mysqlConfig[env.node],
     password: env.mysqlPassword,
@@ -48,7 +48,7 @@ export const AppRepository: {
   User?: Repository<User>;
   Contents?: Repository<Contents>;
 } = {};
-export const connectRepository = async () => {
+export const connectRepository = async (): Promise<void> => {
   if (_.isEmpty(AppRepository)) {
     AppRepository.User = getManager(env.node).getRepository(User);
     AppRepository.Contents = getManager(env.node).getRepository(Contents);

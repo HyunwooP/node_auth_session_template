@@ -3,12 +3,12 @@ import * as User from "../../models/User/controller";
 import * as Contents from "../../models/Contents/controller";
 export interface RouteItemIE {
   path: string;
-  method: string;
+  method: "get" | "post" | "put" | "delete";
   next: Function;
   auth: boolean;
 }
 
-export default [
+const item: RouteItemIE[] = [
   // GET
   {
     path: "/findUserProfile",
@@ -50,3 +50,5 @@ export default [
     auth: true,
   },
 ];
+
+export default item;
