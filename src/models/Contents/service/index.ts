@@ -11,7 +11,10 @@ export const findOneContents = async (
   conditions: ContentsIE
 ): Promise<ContentsIE> => {
   try {
-    return await AppRepository.Contents.findOne(conditions);
+    return await AppRepository.Contents.findOne({
+      ...conditions,
+      isDeleted: false,
+    });
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
@@ -25,7 +28,10 @@ export const findContents = async (
   conditions: ContentsIE
 ): Promise<ContentsIE[]> => {
   try {
-    return await AppRepository.Contents.find(conditions);
+    return await AppRepository.Contents.find({
+      ...conditions,
+      isDeleted: false,
+    });
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,

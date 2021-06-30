@@ -14,10 +14,7 @@ import {
 
 export const _signIn = async (conditions: UserIE): Promise<UserIE> => {
   try {
-    const user: UserIE = await findOneUser({
-      email: conditions.email,
-      isDeleted: false,
-    });
+    const user: UserIE = await findOneUser({ email: conditions.email });
 
     // DB 데이터 유효성 검사
     if (_.isUndefined(user)) {

@@ -12,7 +12,10 @@ import { _signOut } from "../../../models/Auth/service";
 
 export const findOneUser = async (conditions: UserIE): Promise<UserIE> => {
   try {
-    return await AppRepository.User.findOne(conditions);
+    return await AppRepository.User.findOne({
+      ...conditions,
+      isDeleted: false,
+    });
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
@@ -24,7 +27,7 @@ export const findOneUser = async (conditions: UserIE): Promise<UserIE> => {
 
 export const findUser = async (conditions: UserIE): Promise<UserIE[]> => {
   try {
-    return await AppRepository.User.find(conditions);
+    return await AppRepository.User.find({ ...conditions, isDeleted: false });
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
