@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import { CommonStatusCode, initMiddleWare, RequestIE, ResponseIE } from "..";
 import { onFailureHandler } from "../../lib/function";
 import { CommonStatusMessage } from "../../lib/status";
-import RouteItems, { RouteItemIE } from "./item";
+import RouteItems, { RouteItemIE } from "./routes";
 
 export default (app: express.Application): void => {
   RouteItems.forEach((item: RouteItemIE) => {

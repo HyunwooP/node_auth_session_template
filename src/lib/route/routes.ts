@@ -1,6 +1,7 @@
 import * as Auth from "../../models/Auth/controller";
 import * as User from "../../models/User/controller";
 import * as Contents from "../../models/Contents/controller";
+
 export interface RouteItemIE {
   path: string;
   method: "get" | "post" | "put" | "delete" | "patch";
