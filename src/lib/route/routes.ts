@@ -1,3 +1,4 @@
+import * as Common from "../../models/Common/controller";
 import * as Auth from "../../models/Auth/controller";
 import * as User from "../../models/User/controller";
 import * as Contents from "../../models/Contents/controller";
@@ -11,6 +12,12 @@ export interface RouteItemIE {
 
 const item: RouteItemIE[] = [
   // GET
+  {
+    path: "/health",
+    method: "get",
+    next: Common.health,
+    auth: false,
+  },
   {
     path: "/findUserProfile",
     method: "get",
