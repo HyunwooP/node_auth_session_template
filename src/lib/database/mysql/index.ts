@@ -3,26 +3,24 @@ import { createConnection, getManager, Repository } from "typeorm";
 import env from "../../../config";
 import { mysqlConfig } from "../config";
 
-import { User } from "../../../models/User/entity";
-import { Contents } from "../../../models/Contents/entity";
+import { User, UserIE } from "../../../models/User/entity";
+import { Contents, ContentsIE } from "../../../models/Contents/entity";
 import { sampleContents } from "./sample/contents";
 import { sampleUsers } from "./sample/users";
 
 export const generateTestData = (): void => {
   Promise.all([
     (() =>
-      sampleUsers.forEach((item: any, idx: number) => {
+      sampleUsers.forEach((item: UserIE) => {
         const user = new User();
-        user.id = idx + 1;
         user.email = item.email;
         user.password = item.password;
         user.nickname = item.nickname;
         AppRepository.User.save(user);
       }))(),
     (() =>
-      sampleContents.forEach((item: any, idx: number) => {
+      sampleContents.forEach((item: ContentsIE, idx: number) => {
         const contents = new Contents();
-        contents.id = idx + 1;
         contents.imageLink = item.imageLink;
         contents.title = item.title + idx;
         contents.subTitle = item.subTitle + idx;
