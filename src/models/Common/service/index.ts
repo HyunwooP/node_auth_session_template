@@ -3,6 +3,7 @@ import {
   CommonStatusCode,
   CommonStatusMessage,
   onFailureHandler,
+  getAPI,
 } from "../../../lib";
 
 export const _health = async (): Promise<object> => {
@@ -14,6 +15,19 @@ export const _health = async (): Promise<object> => {
       });
     }
 
+    return {};
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
+};
+
+export const _findTheme = async (): Promise<object> => {
+  try {
+    const result = await getAPI("http://localhost:3002/findTheme");
     return {};
   } catch (e) {
     onFailureHandler({

@@ -20,6 +20,7 @@ import {
   PayLoadIE,
 } from "./middleware";
 import createRoute from "./route";
+import { getAPI, deleteAPI, patchAPI, putAPI, postAPI } from "./ajax";
 
 export {
   // server
@@ -46,4 +47,10 @@ export {
   checkToken,
   getPayload,
   PayLoadIE,
+  // ajax
+  getAPI,
+  deleteAPI,
+  patchAPI,
+  putAPI,
+  postAPI,
 };
