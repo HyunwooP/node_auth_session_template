@@ -8,13 +8,13 @@ https://github.com/HyunwooP/react_template
 
 ## Style Server Repository
 
-https://github.com/HyunwooP/node_design_style
+https://github.com/HyunwooP/node_design_server
 
 ## 프로젝트 리팩토링
 
-### Old Project = passport.js + redis + express template
+### Old Version = passport.js + redis + express template
 
-### New Project = Api Server
+### New Version = Api Server
 
 ## Framework & Library
 
