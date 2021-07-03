@@ -1,3 +1,4 @@
+import env from "../../../config";
 import { healthCheckMemory } from "../../../utils";
 import {
   CommonStatusCode,
@@ -27,8 +28,9 @@ export const _health = async (): Promise<object> => {
 
 export const _findTheme = async (): Promise<object> => {
   try {
-    const result = await getAPI("http://localhost:3002/findTheme");
-    return {};
+    return await getAPI(
+      `${env.styleServerDomain}:${env.styleServerPort}/findTheme`
+    );
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,

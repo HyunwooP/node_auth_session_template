@@ -19,6 +19,9 @@ export default {
   jwtSecret: process.env.jwtSecret ?? "secret",
   jwtExpired: process.env.jwtExpired ?? "1h",
   jwtRefreshExpired: process.env.jwtRefreshExpired ?? "3h",
+  // style server
+  styleServerDomain: process.env.styleServerDomain ?? "http://localhost",
+  styleServerPort: process.env.styleServerDomain ?? 3002,
   // domain
   origin:
     process.env.clientDomain && process.env.clientPort
