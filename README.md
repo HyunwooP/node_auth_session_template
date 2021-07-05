@@ -1,6 +1,6 @@
 # Node Template
 
-## React + Node API Server + Style Server
+## React + Gateway Server + API Server + Style Server
 
 ## Client Repository
 
