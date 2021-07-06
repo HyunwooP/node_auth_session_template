@@ -25,17 +25,3 @@ export const _health = async (): Promise<object> => {
     });
   }
 };
-
-export const _findTheme = async (): Promise<object> => {
-  try {
-    return await getAPI(
-      `${env.styleServerDomain}:${env.styleServerPort}/findTheme`
-    );
-  } catch (e) {
-    onFailureHandler({
-      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
-      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
-      data: e.data ?? {},
-    });
-  }
-};

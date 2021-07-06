@@ -1,5 +1,5 @@
 import { RequestIE, ResponseIE } from "../../../lib";
-import { _health, _findTheme } from "../service";
+import { _health } from "../service";
 
 /**
  * @method GET
@@ -14,12 +14,4 @@ export const health = async (
   next: Function
 ): Promise<object> => {
   return await _health();
-};
-
-export const findTheme = async (
-  req: RequestIE,
-  res: ResponseIE,
-  next: Function
-): Promise<object> => {
-  return await _findTheme();
 };
