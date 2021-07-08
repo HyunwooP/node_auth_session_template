@@ -2,6 +2,8 @@
 
 ## React Client + React Admin + Gateway Server + API Server + Style Server
 
+![구조](https://user-images.githubusercontent.com/20429356/124894845-f89eef80-e016-11eb-9a37-0c037dbc0fe4.png)
+
 ## Client Repository
 
 https://github.com/HyunwooP/react_client_template
