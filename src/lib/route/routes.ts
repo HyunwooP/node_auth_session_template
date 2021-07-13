@@ -46,7 +46,10 @@ const item: RouteItemIE[] = [
   // PUT
   {
     path: "/signUp",
-    method: "put",
+    // Client -> Node Server
+    // method: "put",
+    // Spring -> Node Server (https://stackoverflow.com/questions/25163131/httpurlconnection-invalid-http-method-patch)
+    method: "post",
     next: Auth.signUp,
     auth: false,
   },
@@ -60,7 +63,10 @@ const item: RouteItemIE[] = [
   // PATCH
   {
     path: "/updateUser",
-    method: "patch",
+    // Client -> Node Server
+    // method: "patch",
+    // Spring -> Node Server (https://stackoverflow.com/questions/25163131/httpurlconnection-invalid-http-method-patch)
+    method: "post",
     next: User.update,
     auth: true,
   },

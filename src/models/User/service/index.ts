@@ -39,7 +39,7 @@ export const findUser = async (conditions: UserIE): Promise<UserIE[]> => {
 
 export const createUser = async (conditions: UserIE): Promise<UserIE> => {
   try {
-    return await AppRepository.User.save(conditions);
+    return await AppRepository.User.create(conditions);
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
@@ -60,8 +60,16 @@ export const updateUser = async (conditions: UserIE): Promise<UserIE> => {
       });
     }
 
-    return await AppRepository.User.save(conditions);
+    user.nickname = _.isEmpty(conditions.nickname)
+      ? user.nickname
+      : conditions.nickname;
+    user.password = _.isEmpty(conditions.password)
+      ? user.password
+      : conditions.password;
+
+    return await AppRepository.User.save(user);
   } catch (e) {
+    console.log(e);
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
       message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,

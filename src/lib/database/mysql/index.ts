@@ -11,11 +11,11 @@ import { sampleUsers } from "./sample/users";
 export const generateTestData = (): void => {
   Promise.all([
     (() =>
-      sampleUsers.forEach((item: UserIE) => {
+      sampleUsers.forEach((item: UserIE, idx: number) => {
         const user = new User();
-        user.email = item.email;
+        user.email = item.email + idx;
         user.password = item.password;
-        user.nickname = item.nickname;
+        user.nickname = item.nickname + idx;
         AppRepository.User.save(user);
       }))(),
     (() =>

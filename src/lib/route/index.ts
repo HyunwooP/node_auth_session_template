@@ -13,7 +13,8 @@ export default (app: express.Application): void => {
       async (req: RequestIE, res: ResponseIE) => {
         try {
           /**
-           * 해당 API가 로그인이 필요한 서비스라면, 비로그인일 시 차단
+           * 1. 해당 API가 로그인이 필요한 서비스라면, 비로그인일 시 차단
+           * 2. todo: 해당 user정보를 확인 후, 관리자가 아닐 경우 forbidden 추가 (role 추가)
            */
           if (item.auth === true && _.isEmpty(req.token)) {
             onFailureHandler({
