@@ -1,8 +1,8 @@
 export const sampleRoles = [
   {
-    name: "사용자",
+    roleName: "사용자",
   },
   {
-    name: "관리자",
+    roleName: "관리자",
   },
 ];

@@ -59,7 +59,9 @@ export const updateContents = async (
   conditions: ContentsIE
 ): Promise<ContentsIE> => {
   try {
-    const contents: ContentsIE = await findOneContents({ id: conditions.id });
+    const contents: ContentsIE = await findOneContents({
+      contId: conditions.contId,
+    });
 
     if (_.isUndefined(contents)) {
       onFailureHandler({
@@ -82,7 +84,7 @@ export const removeContents = async (
   conditions: ContentsIE
 ): Promise<object> => {
   try {
-    await updateContents({ id: conditions.id, isDeleted: true });
+    await updateContents({ contId: conditions.contId, isDeleted: true });
     return {};
   } catch (e) {
     onFailureHandler({

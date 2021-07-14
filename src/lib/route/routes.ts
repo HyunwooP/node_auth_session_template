@@ -38,9 +38,15 @@ const item: RouteItemIE[] = [
   },
   // POST
   {
-    path: "/signIn",
+    path: "/signInUser",
     method: "post",
-    next: Auth.signIn,
+    next: Auth.signInUser,
+    auth: false,
+  },
+  {
+    path: "/signInAdmin",
+    method: "post",
+    next: Auth.signInAdmin,
     auth: false,
   },
   {
@@ -59,13 +65,6 @@ const item: RouteItemIE[] = [
     next: Auth.signUp,
     auth: false,
   },
-  // DELETE
-  {
-    path: "/removeUser",
-    method: "delete",
-    next: User.remove,
-    auth: true,
-  },
   // PATCH
   {
     path: "/updateUser",
@@ -74,6 +73,13 @@ const item: RouteItemIE[] = [
     // Spring -> Node Server (https://stackoverflow.com/questions/25163131/httpurlconnection-invalid-http-method-patch)
     method: "post",
     next: User.update,
+    auth: true,
+  },
+  // DELETE
+  {
+    path: "/removeUser",
+    method: "delete",
+    next: User.remove,
     auth: true,
   },
 ];

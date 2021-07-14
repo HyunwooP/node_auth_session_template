@@ -3,17 +3,17 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { UserRole } from "../../../models/User/entity/UserRole";
 
 export interface RoleIE {
-  id?: number;
-  name?: string;
+  roleId?: number;
+  roleName?: string;
   isDeleted?: boolean;
 }
 @Entity("role")
 export class Role extends CommonEntity implements RoleIE {
   @PrimaryGeneratedColumn({ name: "role_id" })
-  id: number;
+  roleId: number;
 
   @Column({ name: "role_name", length: 10, unique: true })
-  name: string;
+  roleName: string;
 
   @OneToMany((type) => UserRole, (uerRole) => uerRole.role, {
     lazy: true,

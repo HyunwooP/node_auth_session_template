@@ -18,41 +18,58 @@ export const generateTestData = (): void => {
     (() =>
       sampleRoles.forEach((item: RoleIE, idx: number) => {
         const role = new Role();
-        role.name = item.name;
+        role.roleName = item.roleName;
         AppRepository.Role.save(role);
       }))(),
     (() =>
       // User Table 생성
       sampleUsers.forEach((item: UserIE, idx: number) => {
         const user = new User();
-        user.email = item.email + idx;
-        user.password = item.password;
-        user.nickname = item.nickname + idx;
+        user.userEmail = item.userEmail + idx;
+        user.userPw = item.userPw;
+        user.userNickname = item.userNickname + idx;
         AppRepository.User.save(user);
-      }))(),
-    (() =>
-      // Relation User Role Table 생성
-      sampleUsers.forEach((item: UserIE, idx: number) => {
-        const userRole = new UserRole();
-        if (idx % 2 === 0) {
-          userRole.role = 1;
-        } else {
-          userRole.role = 2;
-        }
-        userRole.user = idx + 1;
-        AppRepository.UserRole.save(userRole);
       }))(),
     // Content Table 생성
     (() =>
       sampleContents.forEach((item: ContentsIE, idx: number) => {
         const contents = new Contents();
-        contents.imageLink = item.imageLink;
-        contents.title = item.title + idx;
-        contents.subTitle = item.subTitle + idx;
-        contents.description = item.description + idx;
+        contents.contImageLink = item.contImageLink;
+        contents.contTitle = item.contTitle + idx;
+        contents.contSubTitle = item.contSubTitle + idx;
+        contents.contDesc = item.contDesc + idx;
         AppRepository.Contents.save(contents);
       }))(),
-  ]).catch((e) => console.log("generateTestData Failed!!", e));
+  ])
+    .then(() => {
+      setTimeout(async () => {
+        const user = await AppRepository.Role.findOne({
+          roleId: 1,
+        });
+
+        const admin = await AppRepository.Role.findOne({
+          roleId: 2,
+        });
+        // Relation User Role Table 생성
+        (() =>
+          sampleUsers.forEach(async (item: UserIE, idx: number) => {
+            const userRole = new UserRole();
+            if (idx % 2 === 0) {
+              userRole.role = user;
+            } else {
+              userRole.role = admin;
+            }
+            userRole.user = await AppRepository.User.findOne({
+              userEmail: item.userEmail + idx,
+            });
+            AppRepository.UserRole.save(userRole);
+          }))();
+      }, 2000);
+    })
+    .then(() => {
+      console.log("App Created Test Datas End!!!!");
+    })
+    .catch((e) => console.log("generateTestData Failed!!", e));
 };
 
 export const connectMysql = async (): Promise<void> => {

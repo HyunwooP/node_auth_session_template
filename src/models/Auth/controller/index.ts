@@ -1,6 +1,6 @@
 import { UserIE } from "../../../models/User/entity";
 import { RequestIE, ResponseIE } from "../../../lib";
-import { _signIn, _signUp, _signOut } from "../service";
+import { _signUp, _signOut, _signInUser, _signInAdmin } from "../service";
 
 /**
  * @method POST
@@ -9,13 +9,29 @@ import { _signIn, _signUp, _signOut } from "../service";
  * @param {Function} next
  * @returns {Promise<UserIE>}
  */
-export const signIn = async (
+export const signInUser = async (
   req: RequestIE,
   res: ResponseIE,
   next: Function
 ): Promise<UserIE> => {
   const conditions: UserIE = req.item;
-  return await _signIn(conditions);
+  return await _signInUser(conditions);
+};
+
+/**
+ * @method POST
+ * @param {RequestIE} req
+ * @param {ResponseIE} res
+ * @param {Function} next
+ * @returns {Promise<UserIE>}
+ */
+export const signInAdmin = async (
+  req: RequestIE,
+  res: ResponseIE,
+  next: Function
+): Promise<UserIE> => {
+  const conditions: UserIE = req.item;
+  return await _signInAdmin(conditions);
 };
 
 /**

@@ -18,18 +18,18 @@ import env from "../../config";
  * @returns {string} token
  */
 export const createToken = ({
-  id,
-  email,
+  userId,
+  userEmail,
   jwtExpired,
 }: {
-  id: number;
-  email: string;
+  userId: number;
+  userEmail: string;
   jwtExpired?: string | number;
 }): string => {
   return jwt.sign(
     {
-      id,
-      email,
+      userId,
+      userEmail,
     },
     env.jwtSecret,
     { expiresIn: jwtExpired ?? env.jwtExpired }
@@ -82,8 +82,8 @@ export const checkToken = async (
           // 토큰 연장
           res.status(CommonStatusCode.CREATE).send({
             token: createToken({
-              id: refreshTokenPayload.id,
-              email: refreshTokenPayload.email,
+              userId: refreshTokenPayload.userId,
+              userEmail: refreshTokenPayload.userEmail,
               jwtExpired: env.jwtExpired,
             }),
           });
@@ -104,8 +104,8 @@ export const checkToken = async (
 };
 
 export interface PayLoadIE {
-  id: number;
-  email: string;
+  userId: number;
+  userEmail: string;
 }
 export const getPayload = (token: string): PayLoadIE => {
   const payload: any = payloadToken(token);
@@ -118,7 +118,7 @@ export const getPayload = (token: string): PayLoadIE => {
   }
 
   return {
-    id: payload.id,
-    email: payload.email,
+    userId: payload.userId,
+    userEmail: payload.userEmail,
   };
 };

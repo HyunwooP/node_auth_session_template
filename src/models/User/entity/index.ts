@@ -4,23 +4,24 @@ import { hashSync } from "../../../utils";
 import { UserRole } from "./UserRole";
 
 export interface UserIE {
-  id?: number;
-  email?: string;
-  nickname?: string;
-  password?: string;
+  userId?: number;
+  userEmail?: string;
+  userNickname?: string;
+  userPw?: string;
   isDeleted?: boolean;
   token?: string;
+  userRoles?: UserRole[];
 }
 @Entity("user")
 export class User extends CommonEntity implements UserIE {
   @PrimaryGeneratedColumn({ name: "user_id" })
-  id: number;
+  userId: number;
 
   @Column({ name: "user_email", length: 50, unique: true })
-  email: string;
+  userEmail: string;
 
   @Column({ name: "user_name", length: 10 })
-  nickname: string;
+  userNickname: string;
 
   @OneToMany(() => UserRole, (userRole) => userRole.user, {
     cascade: true,
@@ -36,8 +37,20 @@ export class User extends CommonEntity implements UserIE {
       from: (str: string) => str,
     },
   })
-  password: string;
+  userPw: string;
 
   @Column({ name: "user_del", default: false })
   isDeleted: boolean;
+
+  findRole() {
+    return {
+      join: {
+        alias: "user",
+        leftJoinAndSelect: {
+          userRole: "user.userRoles",
+          role: "userRole.role",
+        },
+      },
+    };
+  }
 }
