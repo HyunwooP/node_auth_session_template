@@ -1,6 +1,7 @@
 import { CommonEntity } from "../../Common/entity";
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { hashSync } from "../../../utils";
+import { UserRole } from "./UserRole";
 
 export interface UserIE {
   id?: number;
@@ -15,11 +16,17 @@ export class User extends CommonEntity implements UserIE {
   @PrimaryGeneratedColumn({ name: "user_id" })
   id: number;
 
-  @Column({ name: "user_em", length: 50, unique: true })
+  @Column({ name: "user_email", length: 50, unique: true })
   email: string;
 
-  @Column({ name: "user_nm", length: 10 })
+  @Column({ name: "user_name", length: 10 })
   nickname: string;
+
+  @OneToMany(() => UserRole, (userRole) => userRole.user, {
+    cascade: true,
+    eager: true,
+  })
+  userRoles: UserRole[];
 
   @Column({
     name: "user_pw",

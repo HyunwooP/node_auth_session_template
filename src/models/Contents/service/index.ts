@@ -45,7 +45,7 @@ export const createContents = async (
   conditions: ContentsIE
 ): Promise<ContentsIE> => {
   try {
-    return await AppRepository.Contents.save(conditions);
+    return await AppRepository.Contents.create(conditions);
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,

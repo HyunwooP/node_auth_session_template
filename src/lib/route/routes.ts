@@ -19,6 +19,12 @@ const item: RouteItemIE[] = [
     auth: false,
   },
   {
+    path: "/findUser",
+    method: "get",
+    next: User.find,
+    auth: true,
+  },
+  {
     path: "/findUserProfile",
     method: "get",
     next: User.findProfile,
