@@ -7,6 +7,18 @@ import {
 } from "../../../lib";
 import { ContentsIE } from "../entity";
 
+export const findContentsCount = async (): Promise<String> => {
+  try {
+    return String(await AppRepository.Contents.count());
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
+};
+
 export const findOneContents = async (
   conditions: ContentsIE
 ): Promise<ContentsIE> => {

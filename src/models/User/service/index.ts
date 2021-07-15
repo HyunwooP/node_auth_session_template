@@ -10,6 +10,18 @@ import {
 import { User, UserIE } from "../entity";
 import { _signOut } from "../../../models/Auth/service";
 
+export const findUserCount = async (): Promise<String> => {
+  try {
+    return String(await AppRepository.User.count());
+  } catch (e) {
+    onFailureHandler({
+      status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
+      message: e.message ?? CommonStatusMessage.INTERNAL_SERVER_ERROR,
+      data: e.data ?? {},
+    });
+  }
+};
+
 export const findOneUser = async (conditions: UserIE): Promise<UserIE> => {
   const user = new User();
 

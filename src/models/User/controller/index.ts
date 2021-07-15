@@ -3,6 +3,7 @@ import {
   removeUser,
   findOneUser,
   findUser,
+  findUserCount,
   updateUser,
   findUserProfile,
 } from "../service";
@@ -43,6 +44,21 @@ export const find = async (
 ): Promise<UserIE[]> => {
   const conditions: UserIE = req.item;
   return await findUser(conditions);
+};
+
+/**
+ * @method GET
+ * @param {RequestIE} req
+ * @param {ResponseIE} res
+ * @param {Function} next
+ * @returns {Promise<String>}
+ */
+export const findCount = async (
+  req: RequestIE,
+  res: ResponseIE,
+  next: Function
+): Promise<String> => {
+  return await findUserCount();
 };
 
 /**
