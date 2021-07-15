@@ -9,6 +9,12 @@ const CommonRoute: RouteItemIE[] = [
     next: Common.health,
     auth: false,
   },
+  {
+    path: "/findDashboardCount",
+    method: "get",
+    next: Common.findDashboardCount,
+    auth: true,
+  },
 ];
 
 export default CommonRoute;

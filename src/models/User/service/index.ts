@@ -43,8 +43,13 @@ export const findOneUser = async (conditions: UserIE): Promise<UserIE> => {
 };
 
 export const findUser = async (conditions: UserIE): Promise<UserIE[]> => {
+  const user = new User();
   try {
-    return await AppRepository.User.find({ ...conditions, isDeleted: false });
+    return await AppRepository.User.find({
+      ...conditions,
+      isDeleted: false,
+      ...user.findRole(),
+    });
   } catch (e) {
     onFailureHandler({
       status: e.status ?? CommonStatusCode.INTERNAL_SERVER_ERROR,
@@ -112,7 +117,7 @@ export const removeUser = async (token: string): Promise<object> => {
 export const findUserProfile = async (token: string): Promise<UserIE> => {
   try {
     const payload: PayLoadIE = await getPayload(token);
-    const user: UserIE = await findOneUser({ userId: payload.userId });
+    const user: UserIE = await findOneUser({ userEmail: payload.userEmail });
 
     return {
       userId: user.userId,
